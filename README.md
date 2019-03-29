@@ -9,7 +9,6 @@ How does your previous level of education before MDS influence how difficult (Ba
 Justification: We think that whether or not someone’s degree is in computer science could be a confounding factor in the relationship between degree attained and difficulty of the MDS program because 1) having a background in CS effects how difficult one finds the program and 2) studying Computer Science will have an effect on the likelihood of a student who is admitted into the MDS program having a more advanced degree.
 
 #### Potential confounder: Most recent degree is/is not related to Mathematics (Other than Statistics) - X3
-X3: binary (levels: Most recent degree related to Mathematics (other than Statistics), not related)
 Justification: We think that whether or not someone’s degree is in Mathematics could be a confounding factor in the relationship between degree attained and difficulty of the MDS program because 1) having a background in Mathematics effects how difficult one finds the program and 2) studying Mathematics will have an effect on the likelihood of a student who is admitted into the MDS program having a more advanced degree.
 
 #### Potential confounder: Most recent degree is/is not related to Statistics - X4
