@@ -1,6 +1,9 @@
 # Proposal
 
-Contributors: Luo Yang, Reza Bagheri, Richard Zitomer
+Contributors: 
+- Luo Yang, `lyris22`
+- Reza Bagheri, `reza-bagheri`
+- Richard Zitomer, `rezitomer`
 
 ## Main question
 How does a person's previous level of degree attainment (Bachelor's or Master's and beyond) influence how difficult they find the MDS program?
