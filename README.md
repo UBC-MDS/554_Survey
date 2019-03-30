@@ -1,7 +1,7 @@
 # Proposal
 
 ## Main question
-How does a person's previous level of degree attainment (Bachelors or Masters and beyond) influence how difficult they find the MDS program?
+How does a person's previous level of degree attainment (Bachelor's or Master's and beyond) influence how difficult they find the MDS program?
 
 ## Questions to Identify Confounding Variables
 
