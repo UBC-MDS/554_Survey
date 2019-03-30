@@ -3,11 +3,9 @@
 
 ### Adding Changes
 
-Please feel free to send a pull request, but remember that by participating in this project you are agreeing to our [Code of Conduct] and [License].
+Please feel free to send a pull request, but remember that by participating in this project you are agreeing to our [Code of Conduct].
 
-[Code of Conduct]:
-
-[License]: 
+[Code of Conduct]: https://github.com/UBC-MDS/554_Survey/blob/master/CONDUCT.md
 
 ##### Git Workflow
 
