@@ -12,6 +12,11 @@ Contributors:
 
 - R Markdown: https://github.com/UBC-MDS/554_Survey/blob/master/docs/554_EDA.Rmd
 
+## Survey
+
+- Link to take our survey: https://trial.hostedincanadasurveys.ca/index.php/689877
+
+- Screenshot of our survey: ![survey](imgs/survey.jpg)
 
 ## Survey Results Raw Data (Private Repo)
 https://github.ubc.ca/MDS-2018-19/554_survey_results_rz_iy/blob/master/survey_results.csv
