@@ -1,0 +1,114 @@
+---
+title: "Exploratory data analysis for 554 Survey"
+output: github_document
+---
+
+```{r import}
+suppressPackageStartupMessages(library(tidyverse))
+```
+
+## Load Data
+
+```{r Load Data}
+# load csv: note the data is not in the github repo
+df = read.csv("results-survey.csv")
+# select the columns we need
+df <- df %>% select(id, X1, X2, X3, X4, Y)
+# display a head
+head(df)
+```
+
+## Variables Collected
+
+The data is collected from the response of our survey. Here is the decriptions of the variables.
+
+**X1:** What is the highest degree you obtained before MDS?
+
+- A1: Bachelor's
+- A2: Master's or Higher
+
+**X2:** What was your most recent degree in?
+
+- A1: Computer Science
+- A2: Engineering (Other than Computer Science)
+- A3: Statistics
+- A4: Mathematics (Other than Statistics)
+- A5: None of the above
+
+**X3:** How related was you work experience to the MDS program?
+
+- A1: Very related - the work I did was very similar to the work I am doing in the program
+- A2: Somewhat related - the work I did was somewhat similar to the work I am doing in the program
+- A3: Not related -  the work I did was not at all similar to the work I am doing in the program
+- A4: I have no previous work experience
+
+**X4:** Did you have programming experience before this program?
+
+- A1: Yes
+- A2: No
+
+**Y:** How difficult have you found the MDS program?
+
+- 1: Very Easy
+- 2: Easy
+- 3: Neutral
+- 4: Difficult
+- 5: Very Difficult
+
+## Summary table
+
+```{r}
+# summarize the data
+summary(df)
+```
+
+## Bar plots for the single variables
+
+```{r X1}
+df %>% 
+  ggplot(aes(x = X1)) +
+  geom_bar(width = 0.4, fill = "coral2") +
+  scale_x_discrete(labels = c("Bachelor's","Master's or Higher")) +
+  labs(title = "What is the highest degree you obtained before MDS?",
+       x = "Degree",
+       y = "Count")
+```
+
+```{r X2}
+df %>% 
+  ggplot(aes(x = X2)) +
+  geom_bar(width = 0.6, fill = "cadetblue3") +
+  scale_x_discrete(labels = c("CS","Engineering","Stats","Math","Others")) +
+  labs(title = "What was your most recent degree in?",
+       x = "Major",
+       y = "Count")
+```
+
+```{r X3}
+df %>% 
+  ggplot(aes(x = X3)) +
+  geom_bar(width = 0.6, fill = "darkseagreen3") +
+  scale_x_discrete(labels = c("Very related","Somewhat related","Not related","No work experience")) +
+  labs(title = "How related was you work experience to the MDS program?",
+       x = "Relationship",
+       y = "Count")
+```
+
+```{r X4}
+df %>% 
+  ggplot(aes(x = X4)) +
+  geom_bar(width = 0.4, fill = "goldenrod2") +
+  scale_x_discrete(labels = c("Yes","No")) +
+  labs(title = "Did you have programming experience before this program?",
+       x = "Experience",
+       y = "Count")
+```
+
+```{r Y}
+df %>% 
+  ggplot(aes(x = Y)) +
+  geom_bar(width = 0.6, fill = "slateblue") +
+  labs(title = "How difficult have you found the MDS program? (1-5)",
+       x = "Difficulty",
+       y = "Count")
+```
