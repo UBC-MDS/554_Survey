@@ -1,14 +1,29 @@
-# Proposal
+# Relationship Between Educational Attainment and MDS Difficulty
 
 Contributors: 
-- Luo Yang, `lyris22`
-- Reza Bagheri, `reza-bagheri`
-- Richard Zitomer, `rezitomer`
 
-## Main question
+- Luo Yang, `lyris22`
+
+- Richard Zitomer, `rzitomer`
+
+## Exploratory Data Analysis of Survey Results
+
+- Markdown: https://github.com/UBC-MDS/554_Survey/blob/master/docs/554_EDA.md
+
+- R Markdown: https://github.com/UBC-MDS/554_Survey/blob/master/docs/554_EDA.Rmd
+
+
+## Survey Results Raw Data (Private Repo)
+https://github.ubc.ca/MDS-2018-19/554_survey_results_rz_iy/blob/master/survey_results.csv
+
+---
+
+## Proposal
+
+### Main question
 How does a person's previous level of degree attainment (Bachelor's or Master's and beyond) influence how difficult they find the MDS program?
 
-## Questions to Identify Confounding Variables
+### Questions to Identify Confounding Variables
 
 #### Potential confounder: Most recent degree is/is not related to CS - X2
 Justification: We think that whether or not someone’s degree is in computer science could be a confounding factor in the relationship between degree attained and difficulty of the MDS program because 1) having a background in CS effects how difficult one finds the program and 2) studying Computer Science effects the likelihood of a student in the MDS program having a more advanced degree.
@@ -28,7 +43,7 @@ Justification: We assume that having work experience makes it less likely that a
 #### Potential confounder: Having/not having programming experience - X6
 Justification: We assume that having prior programming experience would make the MDS program much easier, and it’s a reasonable assumption that there is a correlation between degree attained and knowing a programming language, so it could be a confounding factor.
 
-## Analyzing Survey Results
+### Analyzing Survey Results
 
 Besides the confounding variables we have our predictor and response:
 
@@ -47,7 +62,7 @@ Then we will divide the data into training and testing portion, and use the trai
 After getting some reasonable models, we can select which model makes the most sense using the testing portion. We can also analyze the relationship between X1 and Y based on the model we get.
 
 
-## Relevance to the UBC Office of Research Ethics document
+### Relevance to the UBC Office of Research Ethics document
 
 According to the [UBC Office of Research Ethics document on Using Online Surveys](https://ethics.research.ubc.ca/sites/ore.ubc.ca/files/documents/Online_Survey-GN.pdf), we would make sure the data collected from the surveys are stored in local repos in Canada. The raw data would not be uploaded to Github or other online services.
 
