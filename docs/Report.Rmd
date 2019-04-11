@@ -45,7 +45,7 @@ For analysis, we carry out some basic data cleaning, providing the following dat
 
 ```{r data cleaning, echo=FALSE}
 # read data
-token <- 'AAAGccQKWYK8z3ZzlivFuxkkH5TccalGks5csUJYwA%3D%3D'
+# token <- 'YOUR_TOKEN'
 gh_url <- getURL(paste("https://raw.github.ubc.ca/MDS-2018-19/554_survey_results_rz_iy/master/survey_results.csv?token=",token,sep=""))
 df <- read.csv(text = gh_url)
 df <- df %>% select(id, X1, X2, X3, X4, Y)
