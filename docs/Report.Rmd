@@ -1,0 +1,140 @@
+---
+title: "How does previous level of degree influence your experience in MDS?"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# import packages
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(RCurl))
+suppressPackageStartupMessages(library(gridExtra))
+```
+
+## Contributors
+- Richard Zitomer, `rzitomer`
+- Luo Yang, `lyiris22`
+
+## Introduction
+
+In this project, we want to find how does a person's previous level of degree attainment influence how difficult they find the MDS program. The data we use is collected from current MDS students anonymously. Throughout the analysis, we will study the relationship between levels of degree and difficulties people feel, as well as other confounding variables, such as major, working experience and programming experience. We will use METHOD_OF_ANALYSIS to analyze the data.
+
+## Survey Design
+
+We use the service provided by [Hosted in Canada Surveys](https://www.hostedincanadasurveys.ca) to run our survey. According to [UBC Research Ethnics](https://ethics.research.ubc.ca/sites/ore.ubc.ca/files/documents/Online_Survey-GN.pdf), the data collected from the survey are stored in Canada, and the raw data would not be uploaded to public. Besides, we have a cover letter to disclose the potential risk of re-identification of the anonymous data when combining with application information in the MDS program. The survey is expected to be taken by current MDS students, and can be find here: [MDS Survey](https://trial.hostedincanadasurveys.ca/index.php/689877).
+
+We have 5 questions in the survey, collecting the following information of the survey takers:
+
+1. The highest degree obtained before MDS
+2. The major of the most recent degree
+3. Whether they have programming experience
+4. How related is the work experience related to MDS
+5. How difficult they found the MDS program
+
+The first question provides information of the main predictor, the level of degree. The respond of the last question would serve as the response. Questions 2-4 are related to the confounding variables, which are the major of the most recent degree, programming experience, and work experience.
+
+We assume that the background in specific majors, such as computer science, statistics and mathematics, might affect both how difficult one finds the program and the likelihood of a student having a more advanced degree. Also, work experience might makes it less likely that a student has received a degree higher than a Bachelor’s, while prior programming experience might make the courses that requires coding easier. Therefore, we want to collect data from these aspects to study their relationship with the main prediction variable and the response.
+
+To maximize the user's experience, all the questions are multiple choices, which is easier to take and less time consuming. We also considered to avoid asking questions that might be sensitive or have risk of involving in discrimination issues.
+
+## Data Collection
+
+We have collected 56 observations from the survey. The data is stored in the private repo in github.ubc.ca, which can be found here: [survey_results.csv](https://github.ubc.ca/MDS-2018-19/554_survey_results_rz_iy/blob/master/survey_results.csv).
+
+For analysis, we carry out some basic data cleaning, providing the following data frame:
+
+```{r data cleaning, echo=FALSE}
+# read data
+# token <- 'YOUR_TOKEN'
+gh_url <- getURL(paste("https://raw.github.ubc.ca/MDS-2018-19/554_survey_results_rz_iy/master/survey_results.csv?token=",token,sep=""))
+df <- read.csv(text = gh_url)
+df <- df %>% select(id, X1, X2, X3, X4, Y)
+
+# data cleaning
+clean <- df %>% 
+  mutate(master = (X1 == "A2")*1,
+         deg = recode(X2, 'A1'= 'cs', 'A2'='engineering', 'A3'='statistics', 'A4'='math', 'A5'='other'),
+         deg_cs = (X2 == "A1")*1,
+         deg_eng = (X2 == "A2")*1,
+         deg_stat = (X2 == "A3")*1,
+         deg_math = (X2 == "A4")*1,
+         prog_exp = (X4 == "A1")*1,
+         work_exp = recode(X3, 'A1'=4, 'A2'=3, 'A3'=2, 'A4'=1),
+         diff = Y) %>% 
+  select(master, deg, deg_cs, deg_eng, deg_stat, deg_math, prog_exp, work_exp, diff)
+
+# display a head
+head(clean)
+```
+
+The variables extract the following information from the survey takers:
+
+- `master`: whether the highest degree is more than Bachelors or not
+- `deg`: the major of the most recent degree
+- `deg_cs`: whether the most recent degree is related to computer science or not
+- `deg_stat`: whether the most recent degree is related to statistics or not
+- `deg_math`: whether the most recent degree is related to mathematics or not
+- `prog_exp`: whether having programming experience or not
+- `work_exp`: how the working experience is related to MDS (4 - very related, 3 - somewhat related, 2 - not related, 1 - no work experience)
+- `diff`: how diffcult they feel in MDS program (5 - very difficult, 4 - difficult, 3 - neutral, 2 - easy, 1 - very easy)
+
+## Exploratory Data Analysis
+
+The plots below is based on the generated clean data. EDA based specifically on raw data can be found here: [554_EDA.md](https://github.com/UBC-MDS/554_Survey/blob/master/docs/554_EDA.md)
+
+```{r EDA master, fig.width=5, fig.height=4, fig.align = "center", echo=FALSE}
+clean %>% 
+  ggplot(aes(x = master)) +
+  geom_bar(width = 0.4, fill = "coral2") +
+  scale_x_discrete(labels = c("Bachelor's","Master's or Higher")) +
+  labs(title = "What is the highest degree you obtained before MDS?",
+       x = "Degree",
+       y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+From the distribution of the main variable `master`, we can see that the data is unbalanced, where "Master's of Higher" portion is only one third of "Bachelor's" portion. We would need to do some balancing in the analysis due to this.
+
+```{r EDA difficulty, fig.width=5, fig.height=4, fig.align = "center", echo=FALSE}
+clean %>% 
+  ggplot(aes(x = diff)) +
+  geom_bar(width = 0.6, fill = "slateblue") +
+  labs(title = "How difficult have you found the MDS program? (1-5)",
+       x = "Difficulty",
+       y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+#grid.arrange(aa, bb, ncol=2)
+```
+
+For the difficulty people find in MDS program, the distribution is not normal. It skews to the right, having the majority in 3 (Neutral) and 4 (Difficult), showing that most people find this program somewhat difficult.
+
+```{r EDA majors, fig.width=8, fig.height=5, fig.align = "center", echo=FALSE}
+clean %>% 
+  ggplot(aes(x = factor(master), y = diff)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = factor(deg)), size = 0.8) +
+  scale_x_discrete(labels = c("Bachelor's","Master's or Higher")) +
+  labs(title = "Major & Degree Level vs. Difficulty",
+       x = "Educational Attainment",
+       y = "Difficulty") +
+  scale_color_discrete(name = "Major") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+The boxplot with jitter shows the distribution of majors along the level of degree and difficulties people find in the program. For most of the current students in the program, their recent major is neither related to computer science, statistics or mathematics. It's hard to see the relationship between major and level of difficulty in this plot.
+
+```{r EDA programming experience, fig.width=8, fig.height=5, fig.align = "center", echo=FALSE}
+clean %>% 
+  ggplot(aes(x = factor(master), y = diff)) +
+  geom_boxplot() +
+  geom_jitter(aes(color = factor(prog_exp)), size = 0.8) +
+  scale_x_discrete(labels = c("Bachelor's","Master's or Higher")) +
+  labs(title = "Programming & Degree Level vs. Difficulty",
+       x = "Educational Attainment",
+       y = "Difficulty") +
+  scale_color_discrete(name = "Programming\n Experience", labels = c("No", "Yes")) +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+However, when we compare those with programming experience and those do not, there is a more significant difference. Regardless their previous level of degree, those do not have programming experience seems to having more difficulty in the program. According to this, programming experience might be an important confounding variable that needs further attention in the analysis.
